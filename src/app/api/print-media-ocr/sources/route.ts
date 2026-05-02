@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { query } from "@/lib/db";
+import { query, initDatabase } from "@/lib/db";
 import { analyzeSentiment } from "@/utils/sentiment";
 import { explainArticle } from "@/utils/sumopod";
+
+// Track if database has been initialized
+let dbInitialized = false;
 
 // Mock sources for demo when DB is not available
 const mockSources: any[] = [
@@ -27,6 +30,16 @@ const mockSources: any[] = [
 // GET /api/print-media-ocr/sources - List all sources
 export async function GET(request: NextRequest) {
   try {
+    // Initialize database on first request
+    if (process.env.POSTGRES_URL && !dbInitialized) {
+      try {
+        await initDatabase();
+        dbInitialized = true;
+      } catch (e) {
+        console.error("DB init error:", e);
+      }
+    }
+
     // Try database first
     if (process.env.POSTGRES_URL) {
       const sources = await query(`
@@ -180,41 +193,12 @@ async function processOCRMock(sourceId: number, newspaperName: string, publicati
   const articleCount = 5 + Math.floor(Math.random() * 5);
   const processingStart = new Date().toISOString();
 
-  // Add processing log
-  if (process.env.POSTGRES_URL) {
-    await query(
-      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
-      [sourceId, "info", `Processing ${newspaperName}...`, { source: newspaperName }]
-    );
-  }
-
   // Analyze sentiments
-  const articlesSentiments = [];
   for (let i = 0; i < articleCount; i++) {
     const title = mockTitles[i % mockTitles.length];
     const content = `Artikel ini membahas tentang ${title.toLowerCase()}`;
     const result = analyzeSentiment(content);
-    articlesSentiments.push(result);
-
-    // Get Nalar explanation
     const avatarResponse = await explainArticle(title, content, result.sentiment, result.confidence, newspaperName);
-
-    const article = {
-      title,
-      author: mockAuthors[i % mockAuthors.length],
-      category: mockCategories[i % mockCategories.length],
-      page_number: (i % 12) + 1,
-      publication_date: publicationDate,
-      newspaper_name: newspaperName,
-      sentiment_analysis: result.sentiment,
-      confidence_score: result.confidence,
-      validated: Math.random() > 0.3,
-      created_at: new Date().toISOString(),
-      content,
-      source_id: sourceId,
-      avatar_explanation: avatarResponse.explanation,
-      avatar_model: avatarResponse.model,
-    };
 
     // Save article to database
     if (process.env.POSTGRES_URL) {
@@ -225,10 +209,10 @@ async function processOCRMock(sourceId: number, newspaperName: string, publicati
            avatar_explanation, avatar_model)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
         [
-          article.title, article.author, article.category, article.page_number,
-          article.publication_date, article.newspaper_name, article.sentiment_analysis,
-          article.confidence_score, article.validated, article.created_at, article.content,
-          article.source_id, article.avatar_explanation, article.avatar_model,
+          title, mockAuthors[i % mockAuthors.length], mockCategories[i % mockCategories.length],
+          (i % 12) + 1, publicationDate, newspaperName, result.sentiment,
+          result.confidence, Math.random() > 0.3, new Date().toISOString(), content,
+          sourceId, avatarResponse.explanation, avatarResponse.model,
         ]
       );
     }
@@ -248,12 +232,6 @@ async function processOCRMock(sourceId: number, newspaperName: string, publicati
            article_count = $2, processing_duration = $3
        WHERE id = $4`,
       [processingEnd, articleCount, processingDuration, sourceId]
-    );
-
-    // Add completion log
-    await query(
-      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
-      [sourceId, "info", `OCR completed. ${articleCount} articles extracted.`, { articles_extracted: articleCount }]
     );
   }
 }
