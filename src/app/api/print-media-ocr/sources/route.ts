@@ -230,7 +230,7 @@ export async function POST(request: NextRequest) {
           );
 
           const mockCategories = ["Ekonomi", "Sosial", "Teknologi", "Budaya", "Lingkungan", "Politik", "Bisnis"];
-          const mockAuthors = ["Ahmad Fauzi", "Siti Nurhaliza", "Budi Santoso", "Dewi Lestari", null];
+          const mockAuthors = [null];
 
           // Get sentiment for each article using IndoBERT
           const articlesSentiments: Array<{ sentiment: string; confidence: number }> = [];
