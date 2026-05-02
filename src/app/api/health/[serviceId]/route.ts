@@ -38,8 +38,8 @@ export async function GET(
       );
     }
 
-    // Mock health check response for demo when URL is empty or localhost
-    if (!serviceUrl || serviceUrl.includes("localhost") || serviceUrl.includes("undefined")) {
+    // Mock health check response for demo when URL is empty, localhost, or relative path
+    if (!serviceUrl || serviceUrl.includes("localhost") || serviceUrl.includes("undefined") || serviceUrl.startsWith("/")) {
       return NextResponse.json({
         status: serviceId === "print-media-ocr" ? "healthy" : "unknown",
         service: serviceId,
