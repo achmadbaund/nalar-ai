@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Print Media OCR - Sentimen Media",
-  description: "Analisis sentimen media cetak dengan Nalar AI dan IndoBERT",
+  description: "Print media sentiment analysis with Nalar AI and IndoBERT",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function PrintMediaOcrLayout({

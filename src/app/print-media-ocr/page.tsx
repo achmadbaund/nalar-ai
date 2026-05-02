@@ -55,10 +55,22 @@ export default function LandingPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
+                className="flex items-center gap-4 mb-4"
               >
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                <img
+                  src="/nalar-icon.png"
+                  alt="Nalar Icon"
+                  className="w-16 h-16 rounded-xl shadow-lg"
+                />
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
                   Nalar
                 </h1>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+              >
                 <p className="text-lg text-blue-600 dark:text-blue-400 font-medium mb-6">
                   AI Sentiment Analyst
                 </p>
@@ -71,12 +83,11 @@ export default function LandingPage() {
                 className="space-y-4 mb-8"
               >
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Saya <strong>Nalar</strong>, AI analisis sentimen berbasis{" "}
-                  <strong>IndoBERT</strong> yang dilatih khusus untuk bahasa Indonesia.
+                  I am <strong>Nalar</strong>, a sentiment analysis AI powered by{" "}
+                  <strong>IndoBERT</strong>, trained specifically for Indonesian language media.
                 </p>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Saya langsung menganalisis emosi dan opini dari berita media cetak
-                  yang Anda upload dengan akurasi tinggi.
+                  I analyze emotions and opinions from print media articles you upload with high accuracy.
                 </p>
               </motion.div>
 
@@ -89,11 +100,11 @@ export default function LandingPage() {
               >
                 <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl p-4">
                   <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">92%</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Akurasi</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Accuracy</p>
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/30 rounded-xl p-4">
                   <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">12K+</p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Artikel</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Articles</p>
                 </div>
               </motion.div>
 
@@ -108,7 +119,7 @@ export default function LandingPage() {
                   size="lg"
                   className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Mulai Analisis
+                  Start Analysis
                 </Button>
               </motion.div>
             </div>

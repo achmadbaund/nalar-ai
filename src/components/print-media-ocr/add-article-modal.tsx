@@ -157,7 +157,7 @@ export default function AddArticleModal({ open, onClose, onSuccess }: AddArticle
               ))}
             </select>
             <p className="mt-1 text-xs text-muted-foreground">
-              Pilih source yang sudah diproses OCR untuk dikaitkan dengan artikel ini
+              Select a processed OCR source to associate with this article
             </p>
           </div>
 

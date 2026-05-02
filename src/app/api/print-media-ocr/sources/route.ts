@@ -235,7 +235,7 @@ export async function POST(request: NextRequest) {
           // Get sentiment for each article using IndoBERT
           const articlesSentiments: Array<{ sentiment: string; confidence: number }> = [];
           for (let i = 0; i < articleCount; i++) {
-            const content = `Artikel ini membahas tentang ${mockTitles[i % mockTitles.length].toLowerCase()}`;
+            const content = `This article covers ${mockTitles[i % mockTitles.length].toLowerCase()}`;
             // Use local sentiment analysis (no external dependency)
             const result = analyzeSentiment(content);
             articlesSentiments.push({ sentiment: result.sentiment, confidence: result.confidence });
@@ -272,7 +272,7 @@ export async function POST(request: NextRequest) {
                 confidence_score: parseFloat(confidence.toFixed(2)),
                 validated: Math.random() > 0.3,
                 created_at: new Date().toISOString(),
-                content: `Artikel ini membahas tentang ${mockTitles[i % mockTitles.length].toLowerCase()} yang menjadi perhatian publik.`,
+                content: `This article covers ${mockTitles[i % mockTitles.length].toLowerCase()}, which has drawn public attention.`,
                 source: newSourceId,
                 avatar_explanation: avatarResponse.explanation,
                 avatar_model: avatarResponse.model,

@@ -73,7 +73,7 @@ export default function NalarAvatar({ isAnalyzing, isThinking, message }: NalarA
       {/* Status Text */}
       <div className="text-center">
         <p className="text-xs font-medium text-primary">
-          {isAnalyzing ? "Menganalisis..." : isThinking ? "Berpikir..." : "AI Sentiment Analyst"}
+          {isAnalyzing ? "Analyzing..." : isThinking ? "Thinking..." : "AI Sentiment Analyst"}
         </p>
         <p className="text-[10px] text-muted-foreground">Powered by IndoBERT</p>
       </div>

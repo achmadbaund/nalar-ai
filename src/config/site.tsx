@@ -16,7 +16,7 @@ export type Navigation = {
 
 export const siteConfig = {
   title: "Sentimen Media",
-  description: "Analisis Sentimen dengan Nalar AI",
+  description: "Sentiment Analysis with Nalar AI",
 };
 
 export const navigations: Navigation[] = [

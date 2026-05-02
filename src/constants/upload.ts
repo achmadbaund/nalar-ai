@@ -7,8 +7,8 @@
  *   batasan dan validasi sendiri yang akan diurus oleh programmer masing-masing
  */
 export const OCR_UPLOAD_LIMITS = {
-  MAX_FILE_SIZE_MB: 50,
-  MAX_FILE_SIZE_BYTES: 50 * 1024 * 1024, // 52428800
+  MAX_FILE_SIZE_MB: 4.5,
+  MAX_FILE_SIZE_BYTES: 4.5 * 1024 * 1024, // 4718592
   MAX_FILES_PER_BATCH: 50,
   ALLOWED_EXTENSIONS: ['.pdf', '.jpg', '.jpeg', '.png'],
   ALLOWED_MIME_TYPES: [

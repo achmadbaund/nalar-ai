@@ -553,7 +553,7 @@ export default function ArticlesTab() {
                     <StatusBadge status={viewingArticle.confidence_score} type="confidence" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Sentimen (IndoBERT)</p>
+                    <p className="text-sm font-medium text-muted-foreground">Sentiment (IndoBERT)</p>
                     <SentimentBadge sentiment={viewingArticle.sentiment_analysis} />
                   </div>
                   <div>
@@ -577,7 +577,7 @@ export default function ArticlesTab() {
                       </div>
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-                      {viewingArticle.avatar_explanation || "Analisis artikel sedang dimuat..."}
+                      {viewingArticle.avatar_explanation || "Loading article analysis..."}
                     </p>
                   </div>
                 )}

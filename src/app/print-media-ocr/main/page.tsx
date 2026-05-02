@@ -16,14 +16,14 @@ export default function PrintMediaOcrPage() {
       <div className="flex gap-6">
         <div className="hidden lg:block w-72 shrink-0">
           <div className="sticky top-6">
-            <NalarAvatar message="Saya Nalar, AI analisis sentimen berbasis IndoBERT yang dilatih khusus untuk bahasa Indonesia. Saya langsung menganalisis emosi dan opini dari berita media cetak yang Anda upload." />
+            <NalarAvatar message="I am Nalar, an IndoBERT-based sentiment analysis AI trained specifically for Indonesian language media. I analyze emotions and opinions from print media articles you upload." />
           </div>
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="p-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-xl border-2 border-dashed border-blue-300 dark:border-blue-700 text-center">
-            <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">Upload Dokumen Media Cetak</h2>
-            <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">Unggah file PDF atau gambar untuk dianalisis dengan IndoBERT</p>
+            <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">Upload Print Media Document</h2>
+            <p className="text-sm text-blue-600 dark:text-blue-400 mt-2">Upload a PDF or image file to be analyzed with IndoBERT</p>
             <Button
               onClick={() => setShowUploadModal(true)}
               size="lg"

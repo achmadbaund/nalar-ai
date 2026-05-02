@@ -18,24 +18,21 @@ export async function explainArticle(
   newspaperName: string
 ): Promise<ExplanationResult> {
   if (!SUMOPOD_API_KEY) {
-    // Mock explanation based on sentiment
-    const sentimentLabel = sentiment === "positive" ? "positif" : sentiment === "negative" ? "negatif" : "netral";
-    
     const mockExplanations: Record<string, string[]> = {
       positive: [
-        `Artikel ini memberitakan tentang "${title}" yang menunjukkan perkembangan positif. Berita ini kemungkinan besar mempengaruhi persepsi publik secara konstruktif.`,
-        `Dengan sentimen positif, artikel ini menyoroti aspek-aspek baik dari "${title}" yang layak diapresiasi dan bisa menjadi motivasi.`,
-        `Topik "${title}" dibahas dengan sudut pandang yang mendukung dan memberikan optimism terhadap pembaca.`
+        `This article reports on "${title}", highlighting positive developments. The coverage is likely to shape public perception constructively.`,
+        `With a positive sentiment, this article emphasizes the favorable aspects of "${title}" that deserve recognition and can serve as motivation.`,
+        `The topic "${title}" is discussed from a supportive angle, offering readers a sense of optimism.`
       ],
       negative: [
-        `Artikel ini menyoroti isu negatif terkait "${title}". Perlu perhatian khusus karena bisa mempengaruhi opini publik secara negatif.`,
-        `Dengan sentimen negatif, "${title}" dibahas dari sisi permasalahannya yang perlu menjadi perhatian bersama.`,
-        `Topik "${title}" diberitakan dengan pendekatan kritis yang mungkin mengindikasikan adanya tantangan atau masalah yang perlu diselesaikan.`
+        `This article highlights negative issues surrounding "${title}". Special attention is warranted as it may influence public opinion adversely.`,
+        `With a negative sentiment, "${title}" is examined from a critical perspective, pointing to challenges that require collective attention.`,
+        `The topic "${title}" is reported critically, potentially indicating underlying problems or tensions that need to be addressed.`
       ],
       neutral: [
-        `Artikel ini menyampaikan informasi faktual tentang "${title}" tanpa memihak atau memberikan penilaian emosional.`,
-        `Dengan pendekatan netral, "${title}" dibahas secara objektif sehingga pembaca bisa membentuk opini sendiri.`,
-        `Topik "${title}" disampaikan secara balanced, memberikan fakta tanpa menambahkan opini yang bisa mempengaruhi persepsi pembaca.`
+        `This article presents factual information about "${title}" without taking sides or making emotional judgments.`,
+        `With a neutral approach, "${title}" is discussed objectively, allowing readers to form their own opinions.`,
+        `The topic "${title}" is covered in a balanced manner, providing facts without adding opinions that could sway reader perception.`
       ]
     };
     
@@ -48,7 +45,7 @@ export async function explainArticle(
     };
   }
 
-  const sentimentLabel = sentiment === "positive" ? "positif" : sentiment === "negative" ? "negatif" : "netral";
+  const sentimentLabel = sentiment === "positive" ? "positive" : sentiment === "negative" ? "negative" : "neutral";
 
   try {
     
@@ -63,11 +60,11 @@ export async function explainArticle(
         messages: [
           {
             role: "system",
-            content: `Anda adalah Nalar, AI analis sentimen media cetak Indonesia. Jelaskan isi artikel dengan bahasa Indonesia yang mudah dipahami (3-4 kalimat). Fokus pada apa yang diberitakan dan implikasinya.`
+            content: `You are Nalar, an AI sentiment analyst for print media. Explain the article content in clear English (3-4 sentences). Focus on what is reported and its implications.`
           },
           {
             role: "user",
-            content: `Jelaskan artikel berikut:\n\nJudul: "${title}"\nIsi: "${content}"\nMedia: ${newspaperName}\nSentimen: ${sentimentLabel} (${(confidence * 100).toFixed(0)}% keyakinan)`
+            content: `Explain the following article:\n\nTitle: "${title}"\nContent: "${content}"\nMedia: ${newspaperName}\nSentiment: ${sentimentLabel} (${(confidence * 100).toFixed(0)}% confidence)`
           }
         ],
         max_tokens: 200,
@@ -89,7 +86,7 @@ export async function explainArticle(
   } catch (error) {
     console.error("Sumopod API error:", error);
     return {
-      explanation: `Artikel "${title}" memiliki sentimen ${sentimentLabel} dengan ${(confidence * 100).toFixed(0)}% keyakinan.`,
+      explanation: `The article "${title}" has a ${sentimentLabel} sentiment with ${(confidence * 100).toFixed(0)}% confidence.`,
       model: "MiniMax (error)",
     };
   }

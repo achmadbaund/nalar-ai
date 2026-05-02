@@ -24,7 +24,7 @@ export function validateOcrFile(file: File): { valid: boolean; error?: string } 
     };
   }
 
-  // Cek ukuran file (50 MB per file)
+  // Cek ukuran file (4.5 MB per file)
   if (file.size > OCR_UPLOAD_LIMITS.MAX_FILE_SIZE_BYTES) {
     return {
       valid: false,
