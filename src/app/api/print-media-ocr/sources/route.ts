@@ -3,10 +3,6 @@ import { API_CONFIG } from "@/config/api";
 import { analyzeSentiment } from "@/utils/sentiment";
 import { explainArticle } from "@/utils/sumopod";
 
-export const config = {
-  api: { bodyParser: { sizeLimit: "50mb" } },
-};
-
 const BASE_URL = API_CONFIG.printMediaOcr.url;
 const BASE_URL_CONFIGURED = !!API_CONFIG.printMediaOcr.baseUrl && !API_CONFIG.printMediaOcr.baseUrl.includes("localhost");
 
