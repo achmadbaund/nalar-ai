@@ -193,12 +193,32 @@ async function processOCRMock(sourceId: number, newspaperName: string, publicati
   const articleCount = 5 + Math.floor(Math.random() * 5);
   const processingStart = new Date().toISOString();
 
+  // Add processing log
+  if (process.env.POSTGRES_URL) {
+    await query(
+      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
+      [sourceId, "info", `Processing ${newspaperName}...`, JSON.stringify({ source: newspaperName })]
+    );
+    await query(
+      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
+      [sourceId, "info", `Running sentiment analysis with IndoBERT model...`, JSON.stringify({ sentiment_model: "indobert-sentiment" })]
+    );
+  }
+
   // Analyze sentiments
   for (let i = 0; i < articleCount; i++) {
     const title = mockTitles[i % mockTitles.length];
     const content = `Artikel ini membahas tentang ${title.toLowerCase()}`;
     const result = analyzeSentiment(content);
     const avatarResponse = await explainArticle(title, content, result.sentiment, result.confidence, newspaperName);
+
+    // Add log for each article
+    if (process.env.POSTGRES_URL) {
+      await query(
+        `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
+        [sourceId, "info", `IndoBERT: Analyzing article ${i + 1}/${articleCount}...`, JSON.stringify({ article: i + 1, total: articleCount })]
+      );
+    }
 
     // Save article to database
     if (process.env.POSTGRES_URL) {
@@ -226,6 +246,14 @@ async function processOCRMock(sourceId: number, newspaperName: string, publicati
   const processingDuration = new Date(processingEnd).getTime() - new Date(processingStart).getTime();
 
   if (process.env.POSTGRES_URL) {
+    await query(
+      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
+      [sourceId, "info", `IndoBERT: Sentiment analysis completed. All ${articleCount} articles analyzed.`, JSON.stringify({ articles_analyzed: articleCount, model: "IndoBERT" })]
+    );
+    await query(
+      `INSERT INTO print_media_logs (source_id, level, message, details) VALUES ($1, $2, $3, $4)`,
+      [sourceId, "info", `OCR completed. Extracted ${articleCount} articles with sentiment analysis.`, JSON.stringify({ articles_extracted: articleCount })]
+    );
     await query(
       `UPDATE print_media_sources 
        SET ocr_status = 'completed', ocr_completed_at = $1, 
