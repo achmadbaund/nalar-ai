@@ -3,6 +3,10 @@ import { API_CONFIG } from "@/config/api";
 import { analyzeSentiment } from "@/utils/sentiment";
 import { explainArticle } from "@/utils/sumopod";
 
+export const config = {
+  api: { bodyParser: { sizeLimit: "50mb" } },
+};
+
 const BASE_URL = API_CONFIG.printMediaOcr.url;
 
 // Mock sources for demo
@@ -225,20 +229,11 @@ export async function POST(request: NextRequest) {
           // Step 2: IndoBERT Sentiment Analysis
           await addLog(newSourceId + 5, "info", `Running sentiment analysis with IndoBERT model...`, { sentiment_model: "indobert-sentiment" }, 500);
 
-          const mockTitles = [
-            "Ekonomi Indonesia Tumbuh Positif di Tengah Ketidakpastian Global",
-            "Pemerintah Luncurkan Program Pemberdayaan Masyarakat Desa",
-            "Teknologi AI Mulai Diadopsi di Sektor Pendidikan Nasional",
-            "Industri Kreatif Indonesia Raih Pengakuan Internasional",
-            "Upaya Pelestarian Lingkungan Hidup Semakin Diperketat",
-            "Sektor Pariwisata Indonesia Mulai Bangkit Pasca Pandemi",
-            "Inovasi Startup Lokal Sukses Tarik Minat Investor Asing",
-            "Kesejahteraan Tenaga Honorer Menjadi Sorotan Pemerintah",
-            "Digitalisasi UMKM Jadi Kunci Pertumbuhan Ekonomi Baru",
-            "Pembangunan Infrastruktur Jalan Tol Terus Digalakkan",
-            "Swasembada Energi Terbarukan Targetkan 30% Tahun 2030",
-            "Reformasi Sistem Pendidikan Vokasi Disambut Positif Industri",
-          ];
+          const fileBaseName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          const mockTitles = Array.from({ length: 12 }, (_, i) =>
+            `${fileBaseName} - Halaman ${i + 1}`
+          );
+
           const mockCategories = ["Ekonomi", "Sosial", "Teknologi", "Budaya", "Lingkungan", "Politik", "Bisnis"];
           const mockAuthors = ["Ahmad Fauzi", "Siti Nurhaliza", "Budi Santoso", "Dewi Lestari", null];
 
