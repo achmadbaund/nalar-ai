@@ -83,6 +83,7 @@ export async function GET(request: NextRequest) {
   try {
     // If backend URL is not configured or is localhost, return mock data
     if (!BASE_URL_CONFIGURED) {
+      const uploadSources = (global as any).uploadSources || [];
       const allSources = [...mockSources, ...uploadSources].sort((a, b) =>
         new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()
       );
