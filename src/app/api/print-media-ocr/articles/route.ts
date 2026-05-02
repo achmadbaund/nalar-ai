@@ -147,7 +147,7 @@ const mockArticles: any[] = [
 export async function GET(request: NextRequest) {
   try {
     // If backend URL is not configured or is localhost, return mock data + uploaded
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
+    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined") || BASE_URL.startsWith("/")) {
       const uploadArticles = (global as any).uploadArticles || [];
       // Combine mock data with uploaded articles
       const allArticles = [...mockArticles, ...uploadArticles].sort((a, b) =>

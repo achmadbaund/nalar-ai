@@ -13,7 +13,7 @@ export async function POST(
     const body = await request.json().catch(() => ({}));
 
     // Mock response when backend is not available
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
+    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined") || BASE_URL.startsWith("/")) {
       const uploadSources = (global as any).uploadSources || [];
       const source = uploadSources.find((s: any) => s.id === parseInt(id));
       if (source) {

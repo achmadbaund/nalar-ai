@@ -12,7 +12,7 @@ export async function POST(
     const { id } = await params;
 
     // Mock response when backend is not available
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
+    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined") || BASE_URL.startsWith("/")) {
       const uploadArticles = (global as any).uploadArticles || [];
       const article = uploadArticles.find((a: any) => a.id === parseInt(id));
       if (article) {

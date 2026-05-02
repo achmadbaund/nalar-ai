@@ -152,7 +152,7 @@ export async function GET(
     const { id } = await params;
 
     // If backend URL is not configured or is localhost, return mock data
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
+    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined") || BASE_URL.startsWith("/")) {
       const uploadArticles = (global as any).uploadArticles || [];
       const allArticles = [...mockArticles, ...uploadArticles];
       const article = allArticles.find((a: any) => a.id === parseInt(id));

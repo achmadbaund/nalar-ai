@@ -10,7 +10,7 @@ const mockLogs: any[] = [];
 export async function GET(request: NextRequest) {
   try {
     // If backend URL is not configured or is localhost, return mock data
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
+    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined") || BASE_URL.startsWith("/")) {
       // Combine static mock logs with any upload logs
       const uploadLogs = (global as any).uploadLogs || [];
       const allLogs = [...uploadLogs, ...mockLogs].sort((a, b) =>
