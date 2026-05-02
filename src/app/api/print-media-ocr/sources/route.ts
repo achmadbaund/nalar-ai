@@ -8,6 +8,7 @@ export const config = {
 };
 
 const BASE_URL = API_CONFIG.printMediaOcr.url;
+const BASE_URL_CONFIGURED = !!API_CONFIG.printMediaOcr.baseUrl && !API_CONFIG.printMediaOcr.baseUrl.includes("localhost");
 
 // Mock sources for demo
 const mockSources: any[] = [
@@ -85,8 +86,7 @@ const mockSources: any[] = [
 export async function GET(request: NextRequest) {
   try {
     // If backend URL is not configured or is localhost, return mock data
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
-      const uploadSources = (global as any).uploadSources || [];
+    if (!BASE_URL_CONFIGURED) {
       const allSources = [...mockSources, ...uploadSources].sort((a, b) =>
         new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()
       );
@@ -161,8 +161,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Mock response when backend is not available
-    if (!BASE_URL || BASE_URL.includes("localhost") || BASE_URL.includes("undefined")) {
-      // First, create source with "processing" status
+    if (!BASE_URL_CONFIGURED) {
       const newSourceId = Date.now();
       const now = new Date();
       const pageCount = Math.floor(Math.random() * 10) + 5;
